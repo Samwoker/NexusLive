@@ -12,7 +12,8 @@ export interface IUser extends Document {
   emailVerified: boolean;
   phone?: string;
   phoneVerified: boolean;
-  passwordHash?: string;
+  password: string;
+  confirmPassword?:string
 
   // Basic profile
   name: {
@@ -126,7 +127,16 @@ const UserSchema = new Schema({
     },
     message:"password is not strong enough"
   }},
-
+  confirmPassword: {
+      type: String,
+      trim: true,
+      validate: {
+        validator: function (value) {
+          return this.password === value;
+        },
+        message: "Passwords do not match",
+      },
+    },
   name: { type: NameSchema, required: true },
   username: { type: String, required: true, unique: true, index: true }, 
   bio: { type: String, maxLength: 500 },
@@ -185,10 +195,12 @@ UserSchema.statics.isEmailTaken = async function(email){
 UserSchema.pre("save",async function(next){
   const user = this;
   if(user.isModified("password")){
-    user.password = await bcrypt.hash(user.password,10)
+    user.password = await bcrypt.hash(user.password,10);
+    (user as any).confirmPassword = undefined;
   }
   next()
 })
+
 
 UserSchema.methods.isPasswordMatch = async function(password:string):Promise<boolean>{
   const user = this;
