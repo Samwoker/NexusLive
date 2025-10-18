@@ -5,5 +5,5 @@ import * as userService from '../service/user.services.ts'
 
 export const createUser=catchAsync(async(req:Request , res:Response)=>{
     const user = await userService.createUser(req.body)
-    res.status(httpStatus.CREATED).json(user)
+    res.status(httpStatus.CREATED).json({user})
 })

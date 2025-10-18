@@ -8,6 +8,10 @@ export const createUserSchema ={
     }).required(),
     birthday:joi.date().required(),
     gender:joi.string().valid("male","female").required(),
-    password:joi.string().required().trim()
-  })
+    password:joi.string().required().trim(),
+    confirmPassword:joi.string().required().trim(),
+    username:joi.string().required().trim(),
+    email:joi.string().required()
+  }),
+  
 }

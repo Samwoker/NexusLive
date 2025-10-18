@@ -136,6 +136,7 @@ const UserSchema = new Schema({
         },
         message: "Passwords do not match",
       },
+      required:true
     },
   name: { type: NameSchema, required: true },
   username: { type: String, required: true, unique: true, index: true }, 
@@ -188,7 +189,7 @@ const UserSchema = new Schema({
 UserSchema.index({ 'counts.friends': -1 }); 
 
 UserSchema.statics.isEmailTaken = async function(email){
-  const user = await this.findOne(email)
+  const user = await this.findOne({email})
   return !!user
 }
 
