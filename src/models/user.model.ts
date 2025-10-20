@@ -15,6 +15,8 @@ export interface IUser extends Document {
   password: string;
   confirmPassword?:string
 
+  isPasswordMatch(password:string):Promise<boolean>
+
   // Basic profile
   name: {
     first: string;
@@ -87,7 +89,7 @@ export interface IUser extends Document {
 }
 
 export interface IUserModel extends Model<IUser>{
-  isEmailTaken(email:string):Promise<IUser>
+  isEmailTaken(email:string):Promise<IUser>,
 }
 
 const NameSchema = new Schema({

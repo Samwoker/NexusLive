@@ -15,3 +15,10 @@ export const createUserSchema ={
   }),
   
 }
+
+export const createLoginSchema = {
+  body:joi.object().keys({
+    email:joi.string().trim().required(),
+    password:joi.string().required().trim()
+  })
+}
