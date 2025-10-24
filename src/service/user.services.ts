@@ -31,3 +31,8 @@ export const getUserById = async (id:mongoose.Schema.Types.ObjectId):Promise<IUs
     const user = await User.findOne({_id:id})
     return user
 }
+
+export const getUserByEmail = async (email:string):Promise<IUser | null> =>{
+    const user = await User.findOne({email})
+    return user
+}

@@ -6,8 +6,11 @@ const router = express.Router()
 
 
 router.post("/signup",validate(userValidation.createUserSchema),authController.createUser)
-router.post("login",validate(userValidation.createLoginSchema),authController.login)
+router.post("/login",validate(userValidation.createLoginSchema),authController.login)
 router.post("/logout",authController.logout)
 router.post("/refresh-token",authController.refreshToken)
+router.post("verify-email",authController.verifyEmail)
+router.post("/resend-verification-email",authController.resendVerificationEmail)
+
 
 export default router

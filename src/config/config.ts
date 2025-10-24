@@ -17,6 +17,11 @@ export const config:AppConfig={
         jwtSecret:envVars.JWT_SECRET,
         jwtAccessExpirationMinutes:envVars.JWT_ACCESS_EXPIRATION_MINUTES,
         jwtRefreshExpirationDays:envVars.JWT_REFRESH_EXPIRATION_DAYS,
-     }
+     },
+     smtp:{
+        smtpEmail:envVars.SMTP_EMAIL,
+        smtpPassword:envVars.SMTP_PASSWORD,
+     },
+     baseUrl:envVars.BASE_URL
     
 }

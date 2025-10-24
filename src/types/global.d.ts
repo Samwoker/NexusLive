@@ -8,7 +8,12 @@ export interface AppConfig{
         jwtSecret:string;
         jwtAccessExpirationMinutes:number;
         jwtRefreshExpirationDays:number;
+       };
+       smtp:{
+        smtpEmail:string;
+        smtpPassword:string;
        }
+       baseUrl:url
     }
 export interface PayloadType{
     

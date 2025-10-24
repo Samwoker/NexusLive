@@ -76,3 +76,10 @@ export const generateAuthTokens = async (userId:mongoose.Schema.Types.ObjectId)=
         }
     }
 }
+
+export const generateVerifyEmailToken = async (userId:mongoose.Schema.Types.ObjectId) =>{
+    const expires = dayjs().add(1,"day").toDate();
+    const verifyEmailToken = generateToken(userId,tokenTypes.VERIFY_EMAIL,expires);
+    await saveToken(verifyEmailToken,userId,expires,tokenTypes.VERIFY_EMAIL);
+    return verifyEmailToken
+}

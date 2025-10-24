@@ -7,5 +7,7 @@ export const envSchema = Joi.object({
     JWT_SECRET:Joi.string().required(),
     JWT_ACCESS_EXPIRATION_MINUTES:Joi.number().default(30).required(),
     JWT_REFRESH_EXPIRATION_DAYS:Joi.number().default(30).required(),
+    SMTP_PASSWORD:Joi.string().required(),
+    SMTP_EMAIL:Joi.string().email().required(),
 }).unknown()
 
