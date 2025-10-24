@@ -83,3 +83,10 @@ export const generateVerifyEmailToken = async (userId:mongoose.Schema.Types.Obje
     await saveToken(verifyEmailToken,userId,expires,tokenTypes.VERIFY_EMAIL);
     return verifyEmailToken
 }
+
+export const generateResetPasswordToken = async (userId:mongoose.Schema.Types.ObjectId)=>{
+    const expires = dayjs().add(5,"minutes").toDate();
+    const resetPasswordToken = generateToken(userId,tokenTypes.RESET_PASSWORD,expires)
+    await saveToken(resetPasswordToken,userId,expires,tokenTypes.RESET_PASSWORD)
+    return resetPasswordToken
+}

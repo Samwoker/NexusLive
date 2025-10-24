@@ -11,6 +11,8 @@ router.post("/logout",authController.logout)
 router.post("/refresh-token",authController.refreshToken)
 router.post("verify-email",authController.verifyEmail)
 router.post("/resend-verification-email",authController.resendVerificationEmail)
+router.post("/forgot-password",authController.forgotPassword)
+router.post("/reset-password",authController.resetPassword)
 
 
 export default router

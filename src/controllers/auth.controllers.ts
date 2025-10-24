@@ -125,3 +125,40 @@ export const resendVerificationEmail = catchAsync(async(req:Request,res:Response
         message:"Verification email resent successfully"
     })
 })
+
+export const forgotPassword  = catchAsync(async(req:Request,res:Response)=>{
+    const {email} = req.body;
+    const user = await userService.getUserByEmail(email)
+    if(!user){
+        throw new CustomError(httpStatus.NOT_FOUND,"User not found")
+    }
+    const resetPasswordToken = await tokenService.generateResetPasswordToken(user._id as mongoose.Schema.Types.ObjectId)
+    const resetPasswordUrl = `${config.baseUrl}/api/v1/auth/reset-password?token=${resetPasswordToken}`
+    await sendEmail(
+        user.email,
+        "Reset your password",
+        `<p>Hello ${user.name}, please reset your password by clicking this link:</p>
+         <a href="${resetPasswordUrl}">${resetPasswordUrl}</a>`
+    )
+    res.status(httpStatus.OK).json({
+        success:true,
+        message:"Password reset email sent successfully"
+    })
+})
+
+export const resetPassword = catchAsync(async(req:Request,res:Response)=>{
+    const {newPassword} = req.body;
+    const resetPasswordToken = req.query.token as string
+    const tokenDoc = await tokenService.verifyToken(resetPasswordToken,tokenTypes.RESET_PASSWORD);
+    const user = await userService.getUserById(tokenDoc.user)
+    if(!user){
+        throw new CustomError(httpStatus.NOT_FOUND,"User not found")
+    }
+    user.password = newPassword;
+    await user.save()
+    await Token.deleteMany({user:user._id,type:tokenTypes.RESET_PASSWORD})
+    res.status(httpStatus.OK).json({
+        success:true,
+        message:"Password reset successful"
+    })
+})
