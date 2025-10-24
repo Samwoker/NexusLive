@@ -6,9 +6,12 @@ export interface AppConfig{
        nodeEnv:string;
        jwt:{
         jwtSecret:string;
+        jwtAccessExpirationMinutes:number;
+        jwtRefreshExpirationDays:number;
        }
     }
 export interface PayloadType{
-    id:Types.ObjectId;
-    role:string[]
+    
+    sub:Types.ObjectId;
+    type:string;
 }
