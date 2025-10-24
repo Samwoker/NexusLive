@@ -4,6 +4,7 @@ import type {Request,Response} from 'express'
 import * as userService from '../service/user.services.ts'
 import * as tokenService from "../service/token.services.ts"
 import type mongoose from "mongoose"
+import * as authService from "../service/auth.services.ts"
 
 
 export const createUser=catchAsync(async(req:Request , res:Response)=>{
@@ -39,3 +40,30 @@ export const login = catchAsync(async(req:Request,res:Response)=>{
     })
 })
 
+export const logout = catchAsync(async(req:Request,res:Response)=>{
+    const {refreshToken} = req.body;
+    if(!refreshToken){
+        return res.status(httpStatus.BAD_REQUEST).json({message:"Refresh token is required"})
+    }
+    const tokenDoc = await tokenService.verifyToken(refreshToken,"refresh")
+    if(!tokenDoc){
+        return res.status(httpStatus.NOT_FOUND).json({message:"User already logged out"})
+    }
+    await tokenDoc.deleteOne()
+    res.status(httpStatus.OK).json({
+        success:true,
+        message:"Logout successful"
+    })
+})
+
+export const refreshToken = catchAsync(async(req:Request,res:Response)=>{
+    const {refreshToken} = req.body;
+    const token= await authService.refreshAuthToken(refreshToken)
+    res.status(httpStatus.OK).json({
+        success:true,
+        message:"Token refreshed successfully",
+        data:{
+            token
+        }
+    })
+})

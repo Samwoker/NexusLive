@@ -7,5 +7,7 @@ const router = express.Router()
 
 router.post("/signup",validate(userValidation.createUserSchema),authController.createUser)
 router.post("login",validate(userValidation.createLoginSchema),authController.login)
+router.post("/logout",authController.logout)
+router.post("/refresh-token",authController.refreshToken)
 
 export default router

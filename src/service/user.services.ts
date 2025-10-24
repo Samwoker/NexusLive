@@ -3,7 +3,8 @@ import httpStatus from 'http-status'
 import User  from '../models/user.model.ts'
 import type {IUser} from '../models/user.model.ts'
 import {redisClient} from '../utils/redisClient.ts'
-import type { PayloadType } from "../types/global";
+import type mongoose from "mongoose";
+
 
 export const createUser = async(body:Partial<IUser>): Promise<IUser> =>{
     if(await User.isEmailTaken(body.email as string)){
@@ -23,5 +24,10 @@ export const login = async (email:string,password:string):Promise<IUser>=>{
     if(!isMatch){
         throw new CustomError(httpStatus.UNAUTHORIZED,"Invalid credentials")
     }
+    return user
+}
+
+export const getUserById = async (id:mongoose.Schema.Types.ObjectId):Promise<IUser | null> =>{
+    const user = await User.findOne({_id:id})
     return user
 }
