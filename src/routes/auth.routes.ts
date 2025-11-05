@@ -25,6 +25,7 @@ router.post("/2fa/validate-token",authenticate,twoFactorController.validateToken
 router.get("/google",passport.authenticate("google",{scope:["profile","email"]}))
 router.get("/google/callback",passport.authenticate("google",{session:false}),authController.googleLoginCallback)
 router.get("/sessions",authenticate,sessionController.sessions)
+router.delete("/sessions/:sessionId",authenticate,sessionController.revokeSession)
 
 
 export default router
