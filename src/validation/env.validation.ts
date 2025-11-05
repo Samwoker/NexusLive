@@ -9,5 +9,8 @@ export const envSchema = Joi.object({
     JWT_REFRESH_EXPIRATION_DAYS:Joi.number().default(30).required(),
     SMTP_PASSWORD:Joi.string().required(),
     SMTP_EMAIL:Joi.string().email().required(),
+    GOOGLE_CLIENT_ID:Joi.string().required(),
+    GOOGLE_CLIENT_SECRET:Joi.string().required(),
+    GOOGLE_CALLBACK_URL:Joi.string()
 }).unknown()
 

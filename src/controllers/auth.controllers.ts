@@ -162,3 +162,9 @@ export const resetPassword = catchAsync(async(req:Request,res:Response)=>{
         message:"Password reset successful"
     })
 })
+
+export const googleLoginCallback = catchAsync(async (req:Request,res:Response)=>{
+    const user =  req.user as any;
+    const token = await tokenService.generateAuthTokens(user._id as mongoose.Schema.Types.ObjectId);
+    res.status(httpStatus.OK).json({message:"Login successful" , user, token})
+})

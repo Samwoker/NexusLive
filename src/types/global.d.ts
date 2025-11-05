@@ -14,6 +14,9 @@ export interface AppConfig{
         smtpPassword:string;
        }
        baseUrl:url
+       googleClientId:string,
+       googleClientSecret:string
+       googleCallbackUrl:url
     }
 export interface PayloadType{
     

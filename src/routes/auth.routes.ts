@@ -4,6 +4,8 @@ import * as userValidation from '../validation/user.validation.ts'
 import {validate} from '../middlewares/validation.ts'
 import * as twoFactorController from "../controllers/twoFactorRController.ts"
 import authenticate from "../middlewares/auth.ts"
+import passport from 'passport'
+
 const router = express.Router()
 
 
@@ -18,6 +20,8 @@ router.post("/reset-password",authController.resetPassword)
 router.post("/2fa/generate-secret",authenticate,twoFactorController.generateSecret)
 router.post("/2fa/verify-token",authenticate,twoFactorController.verifyToken)
 router.post("/2fa/validate-token",authenticate,twoFactorController.validateToken)
+router.get("/google",passport.authenticate("google",{scope:["profile","email"]}))
+router.get("/google/callback",passport.authenticate("google",{session:false}),authController.googleLoginCallback)
 
 
 export default router

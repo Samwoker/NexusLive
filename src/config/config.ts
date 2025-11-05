@@ -21,6 +21,8 @@ export const config:AppConfig={
         smtpEmail:envVars.SMTP_EMAIL,
         smtpPassword:envVars.SMTP_PASSWORD,
      },
-     baseUrl:envVars.BASE_URL
-    
+     baseUrl:envVars.BASE_URL,
+     googleClientId:envVars.GOOGLE_CLIENT_ID,
+     googleClientSecret:envVars.GOOGLE_CLIENT_SECRET,
+     googleCallbackUrl:envVars.GOOGLE_CALLBACK_URL
 }

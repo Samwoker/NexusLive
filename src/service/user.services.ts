@@ -4,6 +4,7 @@ import User  from '../models/user.model.ts'
 import type {IUser} from '../models/user.model.ts'
 import {redisClient} from '../utils/redisClient.ts'
 import type mongoose from "mongoose";
+import type {Profile} from "passport-google-oauth20"
 
 
 export const createUser = async(body:Partial<IUser>): Promise<IUser> =>{
@@ -72,5 +73,18 @@ export const updateUserById = async (id:mongoose.Schema.Types.ObjectId,updateBod
     await user.save()
     await redisClient.setex(`user:${id}`,3600,JSON.stringify(user))
     await redisClient.setex(`user:${user.email}`,3600,JSON.stringify(user))
+    return user
+}
+
+export const findOrCreateGoogleUser = async (profile:Profile) =>{
+    const email = Array.isArray(profile.emails) && profile.emails.length > 0? profile.emails[0]?.value : undefined;
+    let user = await User.findOne({email});
+    if(!user){
+        user = await User.create({
+            name:profile.displayName,
+            email:email,
+            googleId:profile.id
+        })
+    }
     return user
 }
