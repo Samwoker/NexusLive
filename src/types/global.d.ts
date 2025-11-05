@@ -17,6 +17,11 @@ export interface AppConfig{
        googleClientId:string,
        googleClientSecret:string
        googleCallbackUrl:url
+       rateLimiter:{
+        maxAttemptsByIPUsername:number
+       maxAttemptsPerDay:number
+       maxAttemptsPerEmail:number
+       }
     }
 export interface PayloadType{
     

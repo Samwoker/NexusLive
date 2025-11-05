@@ -24,5 +24,10 @@ export const config:AppConfig={
      baseUrl:envVars.BASE_URL,
      googleClientId:envVars.GOOGLE_CLIENT_ID,
      googleClientSecret:envVars.GOOGLE_CLIENT_SECRET,
-     googleCallbackUrl:envVars.GOOGLE_CALLBACK_URL
+     googleCallbackUrl:envVars.GOOGLE_CALLBACK_URL,
+     rateLimiter:{
+      maxAttemptsByIPUsername:envVars.MAX_ATTEMPTS_BY_IP_USERNAME,
+      maxAttemptsPerDay:envVars.MAX_ATTEMPTS_PER_DAY,
+      maxAttemptsPerEmail:envVars.MAX_ATTEMPTS_PER_EMAIL
+     }
 }

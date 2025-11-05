@@ -5,12 +5,13 @@ import {validate} from '../middlewares/validation.ts'
 import * as twoFactorController from "../controllers/twoFactorRController.ts"
 import authenticate from "../middlewares/auth.ts"
 import passport from 'passport'
+import { authLimiter } from '../middlewares/authLimiter.ts'
 
 const router = express.Router()
 
 
 router.post("/signup",validate(userValidation.createUserSchema),authController.createUser)
-router.post("/login",validate(userValidation.createLoginSchema),authController.login)
+router.post("/login",authLimiter,validate(userValidation.createLoginSchema),authController.login)
 router.post("/logout",authController.logout)
 router.post("/refresh-token",authController.refreshToken)
 router.post("verify-email",authController.verifyEmail)

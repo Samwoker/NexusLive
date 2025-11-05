@@ -11,6 +11,9 @@ export const envSchema = Joi.object({
     SMTP_EMAIL:Joi.string().email().required(),
     GOOGLE_CLIENT_ID:Joi.string().required(),
     GOOGLE_CLIENT_SECRET:Joi.string().required(),
-    GOOGLE_CALLBACK_URL:Joi.string()
+    GOOGLE_CALLBACK_URL:Joi.string().required(),
+    MAX_ATTEMPTS_BY_IP_USERNAME:Joi.number().required(),
+    MAX_ATTEMPTS_PER_DAY:Joi.number().required(),
+    MAX_ATTEMPTS_PER_EMAIL:Joi.number().required()
 }).unknown()
 

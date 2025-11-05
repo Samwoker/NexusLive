@@ -5,6 +5,7 @@ import type {IUser} from '../models/user.model.ts'
 import {redisClient} from '../utils/redisClient.ts'
 import type mongoose from "mongoose";
 import type {Profile} from "passport-google-oauth20"
+import * as rateLimiter from "../middlewares/authLimiter.ts"
 
 
 export const createUser = async(body:Partial<IUser>): Promise<IUser> =>{
@@ -16,24 +17,31 @@ export const createUser = async(body:Partial<IUser>): Promise<IUser> =>{
     return user
 }
 
-export const login = async (email:string,password:string):Promise<IUser>=>{
+export const login = async (email:string,password:string,ipAddr:string):Promise<IUser>=>{
+
+    const promise = [rateLimiter.slowBruteLimiter.consume(ipAddr)]
     const cachedUser = await redisClient.get(`user:${email}`)
 
     if(cachedUser){
         const UserObj:IUser = JSON.parse(cachedUser)
-        const userInstance = new User(UserObj)
+        const userInstance = User.hydrate(UserObj)
         const isMatch = await userInstance.isPasswordMatch(password)
-        if(!isMatch) return UserObj
+        if(!isMatch) {
+            return UserObj
+        }else{
+            throw new CustomError(httpStatus.FORBIDDEN,"Invalid credentials ")
+        }
     }
-
     const user = await User.findOne({email})
-    if(!user){
+    if(!user || !(await user.isPasswordMatch(password)) ){
+        user && promise.push(
+             rateLimiter.emailIpBruteLimiter.consume(`${email}_${ipAddr}`),
+            rateLimiter.emailBruteLimiter.consume(email)
+        )
+        await Promise.all(promise)
         throw new CustomError(httpStatus.NOT_FOUND,"User not found")
     }
-    const isMatch = await user.isPasswordMatch(password)
-    if(!isMatch){
-        throw new CustomError(httpStatus.UNAUTHORIZED,"Invalid credentials")
-    }
+    
     await redisClient.setex(`user:${email}`,3600,JSON.stringify(user))
     return user
 }
