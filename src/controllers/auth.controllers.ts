@@ -56,7 +56,7 @@ export const verifyEmail = catchAsync(async(req:Request,res:Response)=>{
 
 export const login = catchAsync(async(req:Request,res:Response)=>{
     const {email,password} = req.body;
-    const user = await userService.login(email,password,req.socket.remoteAddress || "unknown_ip")
+    const user = await userService.login(email,password,req.socket.remoteAddress || "unknown_ip",req.headers["user-agent"] || "unknown_device")
     if(!user){
         return res.status(httpStatus.UNAUTHORIZED).json({message:"Invalid email or password"})
     }

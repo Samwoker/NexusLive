@@ -6,7 +6,8 @@ import {redisClient} from '../utils/redisClient.ts'
 import type mongoose from "mongoose";
 import type {Profile} from "passport-google-oauth20"
 import * as rateLimiter from "../middlewares/authLimiter.ts"
-
+import { Session } from "../models/session.model.ts";
+import { generateSessionId } from "../utils/generateSessionId.ts";
 
 export const createUser = async(body:Partial<IUser>): Promise<IUser> =>{
     if(await User.isEmailTaken(body.email as string)){
@@ -17,7 +18,7 @@ export const createUser = async(body:Partial<IUser>): Promise<IUser> =>{
     return user
 }
 
-export const login = async (email:string,password:string,ipAddr:string):Promise<IUser>=>{
+export const login = async (email:string,password:string,ipAddr:string,device:string):Promise<IUser>=>{
 
     const promise = [rateLimiter.slowBruteLimiter.consume(ipAddr)]
     const cachedUser = await redisClient.get(`user:${email}`)
@@ -43,6 +44,16 @@ export const login = async (email:string,password:string,ipAddr:string):Promise<
     }
     
     await redisClient.setex(`user:${email}`,3600,JSON.stringify(user))
+   const session =  await Session.create({
+        sessionId:generateSessionId(),
+        userId:(user._id).toString(),
+        ipAddress:ipAddr,
+        device:device,
+        createdAt:new Date(),
+        lastUsedAt:new Date()
+    })
+
+    await redisClient.setex(`user:${user._id}`,3600,JSON.stringify(session))
     return user
 }
 
