@@ -6,6 +6,7 @@ import * as twoFactorController from "../controllers/twoFactorRController.ts"
 import authenticate from "../middlewares/auth.ts"
 import passport from 'passport'
 import { authLimiter } from '../middlewares/authLimiter.ts'
+import * as magicLinkController from "../controllers/magicLink.controllers.ts"
 
 const router = express.Router()
 
@@ -23,6 +24,8 @@ router.post("/2fa/verify-token",authenticate,twoFactorController.verifyToken)
 router.post("/2fa/validate-token",authenticate,twoFactorController.validateToken)
 router.get("/google",passport.authenticate("google",{scope:["profile","email"]}))
 router.get("/google/callback",passport.authenticate("google",{session:false}),authController.googleLoginCallback)
+router.post("/magic/send",authLimiter,magicLinkController.sendMagicLink)
+router.post("/magic/verify",magicLinkController.verifyMagicLink)
 
 
 export default router
