@@ -1,5 +1,5 @@
 import mongoose  from "mongoose";
-import { tokenTypes } from "../config/tokens";
+import { tokenTypes } from "../config/tokens.ts";
 
 export interface IToken extends mongoose.Document{
     token:string;

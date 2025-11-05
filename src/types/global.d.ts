@@ -20,3 +20,9 @@ export interface PayloadType{
     sub:Types.ObjectId;
     type:string;
 }
+
+export interface TwoFactorSecret{
+    secret:string;
+    otpauthUrl:string;
+    qrCodeDataUrl:string;
+}

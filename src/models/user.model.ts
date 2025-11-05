@@ -8,6 +8,7 @@ const { Schema } = mongoose;
 
 export interface IUser extends Document {
   // Auth & identity
+  _id:mongoose.Schema.Types.ObjectId;
   email: string;
   emailVerified: boolean;
   phone?: string;
@@ -71,7 +72,8 @@ export interface IUser extends Document {
   lastLoginAt?: Date;
   lastSeenAt?: Date;
   twoFactorEnabled: boolean;
-  twoFactorProvider?: string;
+  twoFactorTempSecret?: string | null;
+  twoFactorSecret?:string;
 
   // Verification & roles
   verified: boolean;
@@ -170,7 +172,8 @@ const UserSchema = new Schema({
   lastLoginAt: Date,
   lastSeenAt: Date,
   twoFactorEnabled: { type: Boolean, default: false },
-  twoFactorProvider: { type: String },
+  twoFactorTempSecret: { type: String },
+  twoFactorSecret:{type:String},
 
   verified: { type: Boolean, default: false },
   roles: [{ type: String }], 
