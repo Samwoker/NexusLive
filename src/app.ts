@@ -8,6 +8,7 @@ import httpStatus from "http-status";
 import * as morgan from "./config/morgan.ts"
 import cookieParser from "cookie-parser"
 import  authRouter from './routes/auth.routes.ts'
+import sessionRoute from './routes/session.routes.ts'
 
 
 const app: Application = express();
@@ -22,6 +23,7 @@ app.use(morgan.errorHandler)
 
 //auth routes
 app.use("/api/v1/auth",authRouter)
+app.use("api/v1/sessions",sessionRoute)
 
 app.use((req:Request,res:Response,next:NextFunction)=>{
      new CustomError(httpStatus.NOT_FOUND,"Not Found")
