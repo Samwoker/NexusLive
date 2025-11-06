@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const credentialSchema = new mongoose.Schema({
-    credentialId:String,
+    credentialId:Uint8Array,
     publicKey:String,
     counter:Number,
     deviceType:String,
