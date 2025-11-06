@@ -4,7 +4,7 @@ import * as webauthnController from "../controllers/webauthn.controllers.ts"
 
 const router = express.Router()
 
-router.post("/register",webauthnController.registerOptions)
+router.post("/register-options",webauthnController.registerOptions)
 
 
 export default router;

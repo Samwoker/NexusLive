@@ -11,3 +11,9 @@ export const registerOptions = catchAsync(async(req:Request,res:Response)=>{
     await userService.updateUserById(user._id,{challenge:options.challenge})
     res.status(httpStatus.CREATED).json(options)
 })
+
+export const register = catchAsync(async(req:Request,res:Response)=>{
+    const {credential,username} = req.body;
+    const user = await userService.findUserByUsername(username);
+    
+})
