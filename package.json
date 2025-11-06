@@ -16,6 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@simplewebauthn/server": "^13.2.2",
     "@types/http-status": "^0.2.30",
     "cors": "^2.8.5",
     "dayjs": "^1.11.18",
