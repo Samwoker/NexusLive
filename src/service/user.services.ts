@@ -107,3 +107,18 @@ export const findOrCreateGoogleUser = async (profile:Profile) =>{
     }
     return user
 }
+
+export const findUserByUsername = async(username:string)=>{
+    const cacheKey = `username:${username}`
+    const cachedUser = await redisClient.get(cacheKey)
+    if(cachedUser){
+        const user:IUser = JSON.parse(cachedUser)
+        return user
+    }
+    const user = await User.findOne({username})
+    if(!user){
+        throw new CustomError(httpStatus.NOT_FOUND,"User not found")
+    }
+    await redisClient.setex(cacheKey,3600,JSON.stringify(user))
+    return user;
+}

@@ -1,6 +1,7 @@
 import mongoose, { Document, Types,Model } from 'mongoose';
 import validator from  'validator';
 import bcrypt from 'bcrypt'
+import credentialSchema from "./credential.model.ts";
 
 
 
@@ -177,6 +178,8 @@ const UserSchema = new Schema({
 
   verified: { type: Boolean, default: false },
   roles: [{ type: String }], 
+
+  credentials:[credentialSchema],
 
   locale: { type: String, default: 'en' },
   timezone: { type: String },
