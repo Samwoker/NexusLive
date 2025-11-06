@@ -2,8 +2,8 @@ import { generateRegistrationOptions,verifyRegistrationResponse } from "@simplew
 import {isoUint8Array} from "@simplewebauthn/server/helpers"
 import mongoose from 'mongoose'
 
-export const generateRegistrationOption = (userId:mongoose.Schema.Types.ObjectId,username:string)=>{
-   const options = generateRegistrationOptions({
+export const generateRegistrationOption =async (userId:mongoose.Schema.Types.ObjectId,username:string)=>{
+  return generateRegistrationOptions({
     rpName:"NexusLive",
     rpID:'localhost',
     userID:isoUint8Array.fromUTF8String(userId.toString()),
@@ -12,5 +12,4 @@ export const generateRegistrationOption = (userId:mongoose.Schema.Types.ObjectId
     attestationType:'none'
    })
 
-   return options;
 }

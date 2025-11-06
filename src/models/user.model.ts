@@ -80,6 +80,8 @@ export interface IUser extends Document {
   verified: boolean;
   roles: string[];
 
+  challenge:string;
+
   // Metadata
   locale: string;
   timezone?: string;
@@ -180,6 +182,7 @@ const UserSchema = new Schema({
   roles: [{ type: String }], 
 
   credentials:[credentialSchema],
+  challenge:String,
 
   locale: { type: String, default: 'en' },
   timezone: { type: String },
