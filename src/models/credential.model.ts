@@ -1,4 +1,3 @@
-import type { WebAuthnCredential } from "@simplewebauthn/server";
 import mongoose from "mongoose";
 
 export interface ICredentialSchema extends mongoose.Document{
@@ -11,7 +10,7 @@ export interface ICredentialSchema extends mongoose.Document{
 }
 
 const credentialSchema = new mongoose.Schema<ICredentialSchema>({
-    credentialId:Uint8Array,
+    credentialId:Buffer,
     publicKey:String,
     counter:Number,
     deviceType:String,

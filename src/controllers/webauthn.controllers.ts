@@ -20,3 +20,11 @@ export const register = catchAsync(async(req:Request,res:Response)=>{
     res.status(httpStatus.CREATED).json({message:"Registration successful"})
     
 })
+
+export const authenticateOptions = catchAsync(async(req:Request,res:Response)=>{
+    const {username} = req.body;
+    const user  = await userService.findUserByUsername(username as string);
+    const options = await webauthn.generateAuthenticationOption(user)
+    await userService.updateUserById(user._id,{challenge:options.challenge})
+    res.status(httpStatus.CREATED).json({options})
+})
