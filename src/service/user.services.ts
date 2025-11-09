@@ -8,6 +8,8 @@ import type {Profile} from "passport-google-oauth20"
 import * as rateLimiter from "../middlewares/authLimiter.ts"
 import { Session } from "../models/session.model.ts";
 import { generateSessionId } from "../utils/generateSessionId.ts";
+import type { VerifiedRegistrationResponse } from "@simplewebauthn/server";
+import credentialSchema from "../models/credential.model.ts";
 
 export const createUser = async(body:Partial<IUser>): Promise<IUser> =>{
     if(await User.isEmailTaken(body.email as string)){
@@ -121,4 +123,27 @@ export const findUserByUsername = async(username:string)=>{
     }
     await redisClient.setex(cacheKey,3600,JSON.stringify(user))
     return user;
+}
+
+export const pushWebauthnCredentials = async(verification:VerifiedRegistrationResponse,username:string)=>{
+     const {verified , registrationInfo} = verification;   
+     const user  = await findUserByUsername(username);
+     if(!user){
+        throw new CustomError(httpStatus.NOT_FOUND,"User not found");
+     }
+
+     if(verified && registrationInfo){
+        const {credentialType , credential,credentialDeviceType,credentialBackedUp} = registrationInfo;
+        const newCredentials = {
+            credentialId:credential,
+            publicKey:Buffer.from(credentialType), 
+            deviceType:credentialDeviceType,
+            backedUp:credentialBackedUp,
+            
+        }
+
+     user.credentials.push(newCredentials)
+       await user.save()
+     }
+   return 
 }

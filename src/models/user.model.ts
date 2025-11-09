@@ -2,6 +2,7 @@ import mongoose, { Document, Types,Model } from 'mongoose';
 import validator from  'validator';
 import bcrypt from 'bcrypt'
 import credentialSchema from "./credential.model.ts";
+import type{ ICredentialSchema } from './credential.model.ts';
 
 
 
@@ -81,6 +82,7 @@ export interface IUser extends Document {
   roles: string[];
 
   challenge:string;
+  credentials:Types.DocumentArray<ICredentialSchema>,
 
   // Metadata
   locale: string;

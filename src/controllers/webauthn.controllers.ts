@@ -15,5 +15,8 @@ export const registerOptions = catchAsync(async(req:Request,res:Response)=>{
 export const register = catchAsync(async(req:Request,res:Response)=>{
     const {credential,username} = req.body;
     const user = await userService.findUserByUsername(username);
+    const verification = await webauthn.verifyRegistrationResponses(credential,username)
+    await userService.pushWebauthnCredentials(verification,username)
+    res.status(httpStatus.CREATED).json({message:"Registration successful"})
     
 })
