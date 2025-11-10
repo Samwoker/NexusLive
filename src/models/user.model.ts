@@ -63,6 +63,9 @@ export interface IUser extends Document {
     profileVisibility: 'public' | 'friends' | 'private';
     friendListVisibility: 'public' | 'friends' | 'private';
     searchEngineIndexing: boolean;
+    showEmail:boolean;
+    showPhone:boolean;
+    allowMessagesFrom:"everyone" | "friends" | "no_one"
   };
   notifications: {
     push: boolean;
@@ -114,7 +117,14 @@ const PictureSchema = new Schema({
 const PrivacySchema = new Schema({
   profileVisibility: { type: String, enum: ['public','friends','private'], default: 'public' },
   friendListVisibility: { type: String, enum: ['public','friends','private'], default: 'friends' },
-  searchEngineIndexing: { type: Boolean, default: true }
+  searchEngineIndexing: { type: Boolean, default: true },
+  showEmail:{type:Boolean,default:false},
+  showPhone:{type:Boolean,default:false},
+  allowMessagesFrom:{
+    type:String,
+    enum:["everyone","friends","no_one"],
+    default:"everyone"
+  }
 }, { _id: false });
 
 const UserSchema = new Schema({
