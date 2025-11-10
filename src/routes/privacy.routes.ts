@@ -5,6 +5,7 @@ import * as privacyController from "../controllers/privacy.controllers.ts"
 const router = express.Router();
 
 router.get("/:userId",getUser,privacyController.getUserPrivacy)
+router.patch("/:userId",getUser,privacyController.updatePrivacy)
 
 
 export default router;
