@@ -6,6 +6,7 @@ const router = express.Router()
 
 router.post("/register-options",webauthnController.registerOptions)
 router.post("/register",authLimiter,webauthnController.register)
+router.post("/authenticate",webauthnController.authenticate)
 
 
 export default router;
