@@ -9,5 +9,21 @@ export const getUserPrivacy = catchAsync(async(req:Request,res:Response)=>{
 })
 
 export const updatePrivacy = catchAsync(async(req:Request,res:Response)=>{
-    const 
+    const user:IUser = (req as any).user;
+    const updateBody = req.body;
+    const allowedKeys = [
+        "profileVisibility",
+        "friendListVisibility",
+        "searchEngineIndexing",
+        "showEmail",
+        "showPhone",
+        "allowedMessageFrom"
+    ]
+    allowedKeys.forEach((key)=>{
+        if(updateBody[key] !== undefined){
+            (user.privacy as any)[key] = updateBody[key];
+        }
+    })
+    await user.save();
+    res.status(httpStatus.OK).json({message:"Privacy setting updated successfully",data:{user}})
 })
