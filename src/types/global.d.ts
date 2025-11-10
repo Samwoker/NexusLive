@@ -22,6 +22,10 @@ export interface AppConfig{
        maxAttemptsPerDay:number
        maxAttemptsPerEmail:number
        }
+       recaptcha:{
+        recaptchaSiteKey:string,
+        recaptchaSecretKey:string
+       }
     }
 export interface PayloadType{
     

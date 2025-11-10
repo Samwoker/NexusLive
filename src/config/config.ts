@@ -29,5 +29,10 @@ export const config:AppConfig={
       maxAttemptsByIPUsername:envVars.MAX_ATTEMPTS_BY_IP_USERNAME,
       maxAttemptsPerDay:envVars.MAX_ATTEMPTS_PER_DAY,
       maxAttemptsPerEmail:envVars.MAX_ATTEMPTS_PER_EMAIL
+     },
+     recaptcha:{
+      recaptchaSecretKey:envVars.RECAPTCHA_SECRET_KEY,
+      recaptchaSiteKey:envVars.RECAPTCHA_SITE_KEY
      }
+
 }
