@@ -1,4 +1,4 @@
-import { generateRegistrationOptions,verifyRegistrationResponse } from "@simplewebauthn/server";
+import { generateRegistrationOptions,verifyRegistrationResponse,verifyAuthenticationResponse } from "@simplewebauthn/server";
 import {isoUint8Array} from "@simplewebauthn/server/helpers"
 import { generateAuthenticationOptions, type RegistrationResponseJSON } from "@simplewebauthn/server";
 import mongoose from 'mongoose'
@@ -14,7 +14,6 @@ export const generateRegistrationOption =async (userId:mongoose.Schema.Types.Obj
     timeout:6000,
     attestationType:'none'
    })
-
 }
 
 export const verifyRegistrationResponses=async(credential:RegistrationResponseJSON,challenge:string)=>{
@@ -25,7 +24,6 @@ export const verifyRegistrationResponses=async(credential:RegistrationResponseJS
         expectedRPID:"localhost"
     })
 }
-
 
 export const generateAuthenticationOption = async(user:IUser):Promise<ReturnType<typeof generateAuthenticationOptions>>=>{
   const toBase64Url = (input:Buffer | Uint8Array | ArrayBuffer | string)=>{
@@ -40,7 +38,7 @@ export const generateAuthenticationOption = async(user:IUser):Promise<ReturnType
       id: toBase64Url(c.credentialId),
       type: 'public-key',
     };
-    if (c.transports) cred.transports = c.transports as unknown as /* AuthenticatorTransportFuture[] */ any;
+    if (c.transports) cred.transports = c.transports as unknown as any;
     return cred;
   });
   return generateAuthenticationOptions({
@@ -49,4 +47,19 @@ export const generateAuthenticationOption = async(user:IUser):Promise<ReturnType
     timeout:6000,
     userVerification:"preferred",
   })
+}
+export const verifyAuthenticationResponses = async (user:IUser, credential:any) => {
+  const opts: any = {
+    response: credential,
+    expectedChallenge: user.challenge,
+    expectedOrigin: "http://localhost:3000",
+    expectedRPID: 'localhost',
+    authenticator: {
+      credentialID: credential.credentialID,
+      credentialPublicKey: credential.publicKey,
+      counter: credential.counter,
+      transport: ["internal"]
+    }
+  };
+  return verifyAuthenticationResponse(opts);
 }

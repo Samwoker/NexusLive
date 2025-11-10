@@ -28,3 +28,10 @@ export const authenticateOptions = catchAsync(async(req:Request,res:Response)=>{
     await userService.updateUserById(user._id,{challenge:options.challenge})
     res.status(httpStatus.CREATED).json({options})
 })
+
+export const authenticate = catchAsync(async(req:Request,res:Response)=>{
+    const {username} = req.body;
+    const user = await userService.findUserByUsername(username);
+    const credential = user.credentials.find(c=>c.credentialId === req.body.credential.id)
+    const result = await webauthn.verifyAuthenticationResponses()
+})
