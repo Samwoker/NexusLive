@@ -10,6 +10,7 @@ import cookieParser from "cookie-parser"
 import  authRouter from './routes/auth.routes.ts'
 import sessionRoute from './routes/session.routes.ts'
 import webauthnRoute from "./routes/webauthn.routes.ts"
+import privacyRoute from "./routes/privacy.routes.ts"
 
 
 const app: Application = express();
@@ -26,6 +27,7 @@ app.use(morgan.errorHandler)
 app.use("/api/v1/auth",authRouter)
 app.use("/api/v1/sessions",sessionRoute)
 app.use("/api/v1/webauthn",webauthnRoute)
+app.use("api/v1/privacy",privacyRoute)
 
 app.use((req:Request,res:Response,next:NextFunction)=>{
      new CustomError(httpStatus.NOT_FOUND,"Not Found")
