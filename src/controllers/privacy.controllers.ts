@@ -8,3 +8,6 @@ export const getUserPrivacy = catchAsync(async(req:Request,res:Response)=>{
     res.status(httpStatus.OK).json({message:"User privacy info retrieved successfully",data:{user}})
 })
 
+export const updatePrivacy = catchAsync(async(req:Request,res:Response)=>{
+    const 
+})

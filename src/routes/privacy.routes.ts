@@ -1,10 +1,10 @@
 import express from "express";
-import authenticate from "../middlewares/auth.ts";
+import { getUser } from "../controllers/getUser.ts";
 import * as privacyController from "../controllers/privacy.controllers.ts"
 
 const router = express.Router();
 
-router.get("/:userId",authenticate,privacyController.getUserPrivacy)
+router.get("/:userId",getUser,privacyController.getUserPrivacy)
 
 
 export default router;
