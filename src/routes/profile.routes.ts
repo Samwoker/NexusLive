@@ -4,7 +4,8 @@ import authenticate from "../middlewares/auth";
 
 const router = express.Router();
 
-router.get("/",authenticate,profileController.getProfile)
+router.get("/:username",authenticate,profileController.getProfile)
+router.patch("/update-profile",authenticate,profileController.updateProfile)
 
 
 export default router;
