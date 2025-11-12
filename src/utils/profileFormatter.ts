@@ -1,4 +1,3 @@
-import { use } from "passport";
 import type{IUser} from "../models/user.model.ts";
 
 export const formatProfile = (user:IUser,viewerId?:string)=>{

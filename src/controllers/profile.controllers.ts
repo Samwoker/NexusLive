@@ -25,3 +25,4 @@ export const updateProfile = catchAsync(async(req:Request,res:Response)=>{
     const user = await userService.updateUserById(userId,filteredUpdates)
     return res.status(httpStatus.OK).json(formatProfile(user,userId))
 })
+
