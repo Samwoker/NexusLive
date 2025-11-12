@@ -39,3 +39,11 @@ export const changePassword = catchAsync(async(req:Request,res:Response)=>{
     await user.save()
     return res.status(httpStatus.OK).json({message:"Password updated successfully"})
 })
+
+export const deleteAccount = catchAsync(async(req:Request,res:Response)=>{
+    const user = (req as any).user;
+    if(!user) return res.status(httpStatus.UNAUTHORIZED).json({message:"Unauthorized"});
+    user.isDeleted = true;
+    await user.save();
+    return res.status(httpStatus.OK).json({message:"Account deleted successfully"})
+})
