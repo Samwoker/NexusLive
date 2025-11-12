@@ -47,3 +47,11 @@ export const deleteAccount = catchAsync(async(req:Request,res:Response)=>{
     await user.save();
     return res.status(httpStatus.OK).json({message:"Account deleted successfully"})
 })
+
+export const recoverAccount = catchAsync(async(req:Request,res:Response)=>{
+    const user = (req as any).user;
+    if(!user) return res.status(httpStatus.NOT_FOUND).json({message:"user not found"})
+    user.isDeleted = false;
+    await user.save();
+    return res.status(httpStatus.OK).json({message:"Account recovered successfully"})
+})
