@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.get("/:username",authenticate,profileController.getProfile)
 router.patch("/update-profile",authenticate,profileController.updateProfile)
+router.patch("/change-password",authenticate,profileController.changePassword)
 
 
 export default router;
