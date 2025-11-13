@@ -33,6 +33,10 @@ export const config:AppConfig={
      recaptcha:{
       recaptchaSecretKey:envVars.RECAPTCHA_SECRET_KEY,
       recaptchaSiteKey:envVars.RECAPTCHA_SITE_KEY
+     },
+     cloudinary:{
+      cloudinaryCloudName:envVars.CLOUDINARY_CLOUD_NAME,
+      cloudinaryApiKey:envVars.CLOUDINARY_API_KEY,
+      cloudinaryApiSecret:envVars.CLOUDINARY_API_SECRET
      }
-
 }

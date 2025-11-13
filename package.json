@@ -18,6 +18,7 @@
   "dependencies": {
     "@simplewebauthn/server": "^13.2.2",
     "@types/http-status": "^0.2.30",
+    "cloudinary": "^1.41.3",
     "cors": "^2.8.5",
     "dayjs": "^1.11.18",
     "dotenv": "^17.2.3",
@@ -25,6 +26,8 @@
     "http-status": "^2.1.0",
     "ioredis": "^5.8.1",
     "mongoose": "^8.19.1",
+    "multer": "^2.0.2",
+    "multer-storage-cloudinary": "^4.0.0",
     "passport": "^0.7.0",
     "rate-limiter-flexible": "^8.1.0"
   },
@@ -41,6 +44,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/mongoose": "^5.11.96",
     "@types/morgan": "^1.9.10",
+    "@types/multer": "^2.0.0",
     "@types/node": "^24.7.0",
     "@types/nodemailer": "^7.0.3",
     "@types/passport-google-oauth20": "^2.0.17",

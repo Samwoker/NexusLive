@@ -26,6 +26,11 @@ export interface AppConfig{
         recaptchaSiteKey:string,
         recaptchaSecretKey:string
        }
+       cloudinary:{
+        cloudinaryCloudName:string;
+        cloudinaryApiKey:string;
+        cloudinaryApiSecret:string;
+       }
     }
 export interface PayloadType{
     

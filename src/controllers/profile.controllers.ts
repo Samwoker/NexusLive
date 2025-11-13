@@ -55,3 +55,4 @@ export const recoverAccount = catchAsync(async(req:Request,res:Response)=>{
     await user.save();
     return res.status(httpStatus.OK).json({message:"Account recovered successfully"})
 })
+

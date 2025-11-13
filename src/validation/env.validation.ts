@@ -16,6 +16,9 @@ export const envSchema = Joi.object({
     MAX_ATTEMPTS_PER_DAY:Joi.number().required(),
     MAX_ATTEMPTS_PER_EMAIL:Joi.number().required(),
     RECAPTCHA_SITE_KEY:Joi.string().required(),
-    RECAPTCHA_SECRET_KEY:Joi.string().required()
+    RECAPTCHA_SECRET_KEY:Joi.string().required(),
+    CLOUDINARY_CLOUD_NAME:Joi.string().required(),
+    CLOUDINARY_API_KEY:Joi.string().required(),
+    CLOUDINARY_API_SECRET:Joi.string().required()
 }).unknown()
 
