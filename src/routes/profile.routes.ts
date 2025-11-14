@@ -11,5 +11,6 @@ router.patch("/change-password",authenticate,profileController.changePassword)
 router.delete("/delete-account",authenticate,profileController.deleteAccount)
 router.post("/restore-account",authenticate,profileController.recoverAccount)
 router.post("upload-avatar",authenticate,upload.single("image"),profileController.uploadAvatar)
+router.post("/upload-cover",authenticate,upload.single("image"),profileController.uploadCoverPhoto)
 
 export default router;
