@@ -4,7 +4,6 @@ import type{Request,Response} from "express"
 import * as userService from "../service/user.services.ts";
 import {formatProfile} from "../utils/profileFormatter.ts"
 import CustomError from "../utils/customError.ts";
-import {upload} from "../config/multer.ts"
 
 
 export const getProfile=catchAsync(async(req:Request,res:Response)=>{
@@ -75,5 +74,26 @@ export const uploadAvatar = catchAsync(async(req:Request,res:Response)=>{
          }
     }
     await userService.updateUserById(userId,updatedUser)
+    return res.status(httpStatus.OK).json({message:"Avatar updated successfully"})
+})
+
+export const uploadCoverPhoto = catchAsync(async(req:Request,res:Response)=>{
+    const user = (req as any).user?._id;
+    const userId = user?._id;
+    if(!user) throw new CustomError(httpStatus.NOT_FOUND,"user not found");
+    if(!req.file) return res.status(httpStatus.BAD_REQUEST).json({message:"No file uploaded"})
+    const file = req.file as Express.Multer.File & {
+        path?:string;
+        filename?:string;
+    }    
+    const imageUrl = file.path;
+    const updatedCoverPhoto = {
+        coverPhoto:{
+            url:imageUrl,
+            provider:"cloudinary",
+            uploadedAt:new Date()
+        }
+    }
+    await userService.updateUserById(userId,updatedCoverPhoto);
     return res.status(httpStatus.OK).json({message:"Avatar updated successfully"})
 })
